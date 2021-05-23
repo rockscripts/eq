@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: code-server
+  name: code-server
+  namespace: rockscripts381
+spec:
+  selector:
+    matchLabels:
+      app: code-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: code-server
+    spec:
+      containers:
+      - image: codercom/code-server:latest
+        imagePullPolicy: Always
+        name: code-server
+        volumeMounts:
+        - name: rockscripts381pv1
+          mountPath: /var/lib/odoo
+        env:
+        - name: PASSWORD
+          value: "rockscripts"
+      volumes:
+      - name: rockscripts381pv1
+        persistentVolumeClaim:
+          claimName: rockscripts381pv1
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: code-server
+ namespace: rockscripts381
+spec:
+ ports:
+ - port: 80
+   targetPort: 8080
+ selector:
+   app: code-server

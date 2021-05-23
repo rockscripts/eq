@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: rockscripts381
+  name: rockscripts381v1
+  labels:
+    type: local
+    client: uid17
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  hostPath:
+    path: /data/uid17/rockscripts381v1/
